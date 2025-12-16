@@ -5,6 +5,7 @@ import winsound
 import threading
 import time
 
+# ---------------- DATA ----------------
 currency_names = {
     "USD": "United States Dollar", "INR": "Indian Rupee", "EUR": "Euro",
     "GBP": "British Pound", "JPY": "Japanese Yen", "AUD": "Australian Dollar",
@@ -14,6 +15,7 @@ currency_names = {
     "UYU": "Uruguayan Peso", "UZS": "Uzbekistani Som", "VES": "Venezuelan Bolívar"
 }
 
+# ---------------- FUNCTIONS ----------------
 def fetch_currencies():
     data = requests.get("https://open.er-api.com/v6/latest/USD").json()
     codes = sorted(data["rates"].keys())
@@ -36,7 +38,10 @@ def convert_currency():
         from_code = from_cb.get().split(" – ")[0]
         to_code = to_cb.get().split(" – ")[0]
 
-        data = requests.get(f"https://open.er-api.com/v6/latest/{from_code}").json()
+        data = requests.get(
+            f"https://open.er-api.com/v6/latest/{from_code}"
+        ).json()
+
         rate = data["rates"][to_code]
         result = amount * rate
 
@@ -67,7 +72,7 @@ def filter_combo(event, combo, full_list):
 # ---------------- UI ----------------
 root = tk.Tk()
 root.title("🌈 Currency Converter")
-root.geometry("600x600")
+root.geometry("600x620")
 root.configure(bg="#e0f2fe")
 root.resizable(False, False)
 
@@ -82,37 +87,69 @@ tk.Label(
     fg="white"
 ).pack(pady=15)
 
-# Main Card
+# Footer (PACK FIRST – IMPORTANT)
+footer = tk.Frame(root, bg="#bfdbfe", height=35)
+footer.pack(side="bottom", fill="x")
+
+tk.Label(
+    footer,
+    text="Developed with ❤️ using Python & Tkinter | © 2025 Sai Siddharth Nanda Gopal",
+    font=("Segoe UI", 9),
+    bg="#bfdbfe",
+    fg="#1e3a8a"
+).pack(pady=8)
+
+# Main Card (PACK AFTER FOOTER)
 card = tk.Frame(root, bg="white")
 card.pack(padx=20, pady=20, fill="both", expand=True)
 
-tk.Label(card, text="💰 Enter Amount",
-         font=("Segoe UI", 12),
-         bg="white", fg="#1e3a8a").pack(pady=(15, 5))
+tk.Label(
+    card,
+    text="💰 Enter Amount",
+    font=("Segoe UI", 12),
+    bg="white",
+    fg="#1e3a8a"
+).pack(pady=(15, 5))
 
-amount_entry = tk.Entry(card, font=("Segoe UI", 14),
-                        justify="center",
-                        bg="#f8fafc")
+amount_entry = tk.Entry(
+    card,
+    font=("Segoe UI", 14),
+    justify="center",
+    bg="#f8fafc"
+)
 amount_entry.pack(ipady=6)
 
 currencies = fetch_currencies()
 
-tk.Label(card, text="🔍 From Currency",
-         bg="white", fg="#2563eb").pack(pady=(15, 5))
+tk.Label(
+    card,
+    text="🔍 From Currency",
+    bg="white",
+    fg="#2563eb"
+).pack(pady=(15, 5))
+
 from_cb = ttk.Combobox(card, values=currencies, width=50)
 from_cb.set("USD – United States Dollar")
 from_cb.pack()
 from_cb.bind("<KeyRelease>",
              lambda e: filter_combo(e, from_cb, currencies))
 
-swap_btn = tk.Button(card, text="🔁 SWAP",
-                     command=swap_currency,
-                     bg="#fde047",
-                     font=("Segoe UI", 10, "bold"))
+swap_btn = tk.Button(
+    card,
+    text="🔁 SWAP",
+    command=swap_currency,
+    bg="#fde047",
+    font=("Segoe UI", 10, "bold")
+)
 swap_btn.pack(pady=10)
 
-tk.Label(card, text="🔍 To Currency",
-         bg="white", fg="#2563eb").pack(pady=(5, 5))
+tk.Label(
+    card,
+    text="🔍 To Currency",
+    bg="white",
+    fg="#2563eb"
+).pack(pady=(5, 5))
+
 to_cb = ttk.Combobox(card, values=currencies, width=50)
 to_cb.set("INR – Indian Rupee")
 to_cb.pack()
@@ -140,17 +177,5 @@ result_box = tk.Label(
     relief="ridge"
 )
 result_box.pack(pady=10)
-
-# Footer
-footer = tk.Frame(root, bg="#bfdbfe", height=35)
-footer.pack(fill="x")
-
-tk.Label(
-    footer,
-    text="Developed with ❤️ using Python & Tkinter | © 2025 Sai Siddharth Nanda Gopal",
-    font=("Segoe UI", 9),
-    bg="#bfdbfe",
-    fg="#1e3a8a"
-).pack(pady=8)
 
 root.mainloop()

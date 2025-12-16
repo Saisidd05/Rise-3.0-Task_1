@@ -79,21 +79,6 @@ The application uses the [Open Exchange Rates API](https://open.er-api.com/) for
 - **Display errors**: Ensure you're running on a system with a graphical desktop or use Xvfb in headless environments.
 - **API errors**: Check your internet connection and try again later.
 
-## Screenshots and Demo
-
-Screenshots and video demonstrations of the application are available in the `screenshots/` directory.
-
-To capture your own screenshots/videos:
-1. Run the application on a system with graphical display
-2. Use screenshot tools (e.g., Snipping Tool on Windows, Screenshot on macOS, scrot on Linux)
-3. For videos, use screen recording software (e.g., OBS Studio, Camtasia, or built-in tools)
-
-Example files to add:
-- `screenshots/main_interface.png` - Main application window
-- `screenshots/conversion_example.png` - Example conversion result
-- `screenshots/dropdown_search.png` - Currency selection with search
-- `videos/demo.mp4` - Short video showing the conversion process
-
 ## License
 
 This project is part of the Rise-3.0-Tasks repository. See the main repository for licensing information.
